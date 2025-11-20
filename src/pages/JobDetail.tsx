@@ -172,11 +172,27 @@ const JobDetail = () => {
               </div>
 
               <div className="space-y-3">
-                <Button variant="outline" size="sm" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full justify-start bg-yellow-100 hover:bg-yellow-200 border-yellow-300 text-yellow-900"
+                  onClick={() => {
+                    const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+                    alert(`Contact Number: ${randomNumber}`);
+                  }}
+                >
                   <Mail className="mr-2 h-4 w-4" />
                   Contact
                 </Button>
-                <Button variant="outline" size="sm" className="w-full justify-start">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full justify-start bg-yellow-100 hover:bg-yellow-200 border-yellow-300 text-yellow-900"
+                  onClick={() => {
+                    const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+                    alert(`Call Number: ${randomNumber}`);
+                  }}
+                >
                   <Phone className="mr-2 h-4 w-4" />
                   Call
                 </Button>

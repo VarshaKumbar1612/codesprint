@@ -12,6 +12,7 @@ import LocalServices from "./pages/LocalServices";
 import EmployerLogin from "./pages/EmployerLogin";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import SearchResults from "./pages/SearchResults";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
             <Route path="/local-services" element={<LocalServices />} />
             <Route path="/employer-login" element={<EmployerLogin />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/search" element={<SearchResults />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>

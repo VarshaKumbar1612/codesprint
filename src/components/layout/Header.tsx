@@ -1,12 +1,20 @@
 import { Search, Bell, Menu, User, Briefcase } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useState } from "react";
+import { useState, FormEvent } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 export const Header = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
+
+  const handleSearch = (e: FormEvent) => {
+    e.preventDefault();
+    if (searchQuery.trim()) {
+      navigate(`/search?q=${encodeURIComponent(searchQuery.trim())}`);
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -31,15 +39,17 @@ export const Header = () => {
         </Link>
 
         {/* Search Bar - Desktop */}
-        <div className="hidden flex-1 md:flex md:max-w-xl">
+        <form className="hidden flex-1 md:flex md:max-w-xl" onSubmit={handleSearch}>
           <div className="relative w-full">
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search jobs, services, or location..."
               className="w-full pl-10"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
             />
           </div>
-        </div>
+        </form>
 
         {/* Desktop Navigation */}
         <nav className="hidden items-center gap-2 md:flex">
@@ -83,15 +93,17 @@ export const Header = () => {
       {/* Mobile Menu */}
       {mobileMenuOpen && (
         <div className="border-t bg-background p-4 md:hidden">
-          <div className="mb-4">
+          <form className="mb-4" onSubmit={handleSearch}>
             <div className="relative">
               <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 placeholder="Search jobs, services, or location..."
                 className="w-full pl-10"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
-          </div>
+          </form>
           <Link to="/employer-login">
             <Button variant="ghost" className="w-full justify-start">
               Employer Login

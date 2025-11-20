@@ -21,43 +21,43 @@ const mockBusinesses = [
     id: "1",
     name: "State Bank of India - Branch 205",
     category: "bank",
-    address: "Sector 17, Chandigarh",
+    address: "No. 45, Station Road, Near Clock Tower, Hubli",
     hours: "Mon-Fri: 10 AM - 4 PM",
-    phone: "+91 172 2740123",
+    phone: "+91 836 2223456",
     description: "Full-service banking with ATM, loans, and account services",
   },
   {
     id: "2",
     name: "City Hospital & Medical Center",
     category: "hospital",
-    address: "Model Town, Patiala",
+    address: "No. 12, 3rd Main, SDM College Road, Dharwad",
     hours: "24/7 Emergency Services",
-    phone: "+91 175 2234567",
+    phone: "+91 836 2234567",
     description: "Multi-specialty hospital with emergency care, surgery, and diagnostics",
   },
   {
     id: "3",
     name: "MedPlus Pharmacy",
     category: "pharmacy",
-    address: "Sector 22, Chandigarh",
+    address: "No. 8, 1st Floor, Keshwapur Main Road, Hubli",
     hours: "8 AM - 10 PM Daily",
-    phone: "+91 172 2789456",
+    phone: "+91 836 2789456",
     description: "Prescription medicines, health products, and medical supplies",
   },
   {
     id: "4",
     name: "Kumar Electronics & Appliances",
     category: "shop",
-    address: "Mall Road, Shimla",
+    address: "Shop No. 24, 2nd Cross, PB Road, Dharwad",
     hours: "10 AM - 8 PM Daily",
-    phone: "+91 177 2654321",
+    phone: "+91 836 2654321",
     description: "Electronics, home appliances, and gadgets at competitive prices",
   },
   {
     id: "5",
     name: "Cozy Stay - 2BHK Apartment",
     category: "rental",
-    address: "Sector 35, Chandigarh",
+    address: "No. 33, 7th Cross, Vidyanagar Extension, Dharwad",
     hours: "Contact for viewing",
     phone: "+91 98765 11111",
     description: "Fully furnished 2BHK apartment near IT park, ₹15,000/month",
@@ -66,7 +66,7 @@ const mockBusinesses = [
     id: "6",
     name: "Home Kitchen Tiffin Service",
     category: "meal",
-    address: "Sector 28, Chandigarh",
+    address: "No. 56, 4th Main, Unkal Lake Road, Hubli",
     hours: "Delivery: 12 PM - 2 PM, 7 PM - 9 PM",
     phone: "+91 98765 22222",
     description: "Hygienic home-cooked meals, monthly packages available",
@@ -77,6 +77,21 @@ const LocalServices = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [favorites, setFavorites] = useState<string[]>([]);
+  const [phoneNumbers, setPhoneNumbers] = useState<Record<string, string>>({});
+
+  const generatePhoneNumber = (id: string) => {
+    if (!phoneNumbers[id]) {
+      const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+      setPhoneNumbers((prev) => ({ ...prev, [id]: randomNumber }));
+      return randomNumber;
+    }
+    return phoneNumbers[id];
+  };
+
+  const handleContactClick = (id: string) => {
+    const number = generatePhoneNumber(id);
+    alert(`Contact Number: ${number}`);
+  };
 
   const filteredBusinesses = selectedCategory === "all"
     ? mockBusinesses
@@ -172,7 +187,12 @@ const LocalServices = () => {
                   </div>
                 </div>
 
-                <Button variant="outline" size="sm" className="w-full">
+                <Button 
+                  variant="outline" 
+                  size="sm" 
+                  className="w-full bg-yellow-100 hover:bg-yellow-200 border-yellow-300 text-yellow-900"
+                  onClick={() => handleContactClick(business.id)}
+                >
                   <Phone className="mr-2 h-4 w-4" />
                   Contact
                 </Button>

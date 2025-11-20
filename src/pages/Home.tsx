@@ -9,7 +9,7 @@ const Home = () => {
       <Header />
       
       {/* Hero Section */}
-      <section className="border-b bg-gradient-to-br from-primary/5 via-background to-accent/5">
+      <section className="border-b" style={{ backgroundColor: "#FAF9F7" }}>
         <div className="container px-4 py-12 md:py-20">
           <div className="mx-auto max-w-3xl text-center">
             <div className="mb-6 inline-flex items-center gap-2 rounded-full bg-accent/20 px-4 py-2 text-sm font-medium">

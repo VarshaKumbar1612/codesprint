@@ -21,7 +21,7 @@ const mockWorkers = [
     name: "Ravi Kumar",
     service: "plumber",
     serviceName: "Plumber",
-    location: "Sector 22, Chandigarh",
+    location: "No. 37, 6th Cross, Mayuri Estate, Vijaynagar, Hubli",
     rate: "₹500/hour",
     rating: 4.8,
     reviews: 127,
@@ -32,7 +32,7 @@ const mockWorkers = [
     name: "Suresh Patel",
     service: "electrician",
     serviceName: "Electrician",
-    location: "Model Town, Patiala",
+    location: "No. 51, 4th Main, Saptapur, Dharwad",
     rate: "₹600/hour",
     rating: 4.9,
     reviews: 203,
@@ -43,7 +43,7 @@ const mockWorkers = [
     name: "Amit Singh",
     service: "mechanic",
     serviceName: "Mechanic",
-    location: "Industrial Area, Mohali",
+    location: "No. 23, Industrial Area, Gokul Road, Hubli",
     rate: "₹800/day",
     rating: 4.7,
     reviews: 95,
@@ -54,7 +54,7 @@ const mockWorkers = [
     name: "Rajesh Sharma",
     service: "painter",
     serviceName: "Painter",
-    location: "Sector 35, Chandigarh",
+    location: "No. 19, 2nd Cross, Kelgeri Road, Dharwad",
     rate: "₹700/day",
     rating: 4.6,
     reviews: 78,
@@ -65,6 +65,21 @@ const mockWorkers = [
 const DailyServices = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
+  const [phoneNumbers, setPhoneNumbers] = useState<Record<string, string>>({});
+
+  const generatePhoneNumber = (id: string) => {
+    if (!phoneNumbers[id]) {
+      const randomNumber = Math.floor(1000000000 + Math.random() * 9000000000).toString();
+      setPhoneNumbers((prev) => ({ ...prev, [id]: randomNumber }));
+      return randomNumber;
+    }
+    return phoneNumbers[id];
+  };
+
+  const handleContactClick = (id: string) => {
+    const number = generatePhoneNumber(id);
+    alert(`Contact Number: ${number}`);
+  };
 
   const filteredWorkers = selectedCategory === "all"
     ? mockWorkers
@@ -136,7 +151,12 @@ const DailyServices = () => {
                 </div>
 
                 <div className="space-y-2">
-                  <Button variant="outline" size="sm" className="w-full">
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="w-full bg-yellow-100 hover:bg-yellow-200 border-yellow-300 text-yellow-900"
+                    onClick={() => handleContactClick(worker.id)}
+                  >
                     <Phone className="mr-2 h-4 w-4" />
                     Contact
                   </Button>
