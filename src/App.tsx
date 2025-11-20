@@ -11,6 +11,10 @@ import LocalServices from "./pages/LocalServices";
 import EmployerLogin from "./pages/EmployerLogin";
 import Profile from "./pages/Profile";
 import NotFound from "./pages/NotFound";
+import Dashboard from "./pages/Dashboard";
+import JobBoard from "./pages/JobBoard";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +28,10 @@ const App = () => (
           <Route path="/" element={<Home />} />
           <Route path="/jobs" element={<Jobs />} />
           <Route path="/jobs/:id" element={<JobDetail />} />
+          <Route path="/job-board" element={<JobBoard />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
           <Route path="/daily-services" element={<DailyServices />} />
           <Route path="/local-services" element={<LocalServices />} />
           <Route path="/employer-login" element={<EmployerLogin />} />
