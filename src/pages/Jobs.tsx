@@ -2,67 +2,36 @@ import { Header } from "@/components/layout/Header";
 import { JobCard } from "@/components/jobs/JobCard";
 import { JobFilters } from "@/components/jobs/JobFilters";
 import { Button } from "@/components/ui/button";
-import { ArrowLeft, Grid, List } from "lucide-react";
-import { useState } from "react";
+import { ArrowLeft, Grid, List, Plus } from "lucide-react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-
-const mockJobs = [
-  {
-    id: "1",
-    title: "Digital Marketing Intern",
-    company: "TechStart Solutions",
-    location: "Remote",
-    jobType: "internship",
-    salary: "₹10,000 - ₹15,000/month",
-    postedTime: "2h ago",
-    description: "Learn digital marketing strategies, SEO, social media management, and content creation.",
-  },
-  {
-    id: "2",
-    title: "Construction Daily Worker",
-    company: "BuildRight Construction",
-    location: "Sector 15, Chandigarh",
-    jobType: "daily-wage",
-    salary: "₹600/day",
-    postedTime: "5h ago",
-    description: "Daily wage construction work. Experience in masonry or general labor preferred.",
-  },
-  {
-    id: "3",
-    title: "Retail Sales Associate",
-    company: "Fashion Hub",
-    location: "Mall Road, Shimla",
-    jobType: "part-time",
-    salary: "₹12,000/month",
-    postedTime: "1d ago",
-    description: "Part-time sales position in retail clothing store. Customer service experience required.",
-  },
-  {
-    id: "4",
-    title: "Software Development Training",
-    company: "CodeAcademy Pro",
-    location: "Online",
-    jobType: "training",
-    salary: "Free with stipend",
-    postedTime: "2d ago",
-    description: "3-month intensive training in web development with React, Node.js, and databases.",
-  },
-  {
-    id: "5",
-    title: "Accounts Executive",
-    company: "Green Valley Enterprises",
-    location: "Panchkula",
-    jobType: "full-time",
-    salary: "₹25,000 - ₹35,000/month",
-    postedTime: "3d ago",
-    description: "Full-time accounting position. Tally and basic accounting knowledge required.",
-  },
-];
+import { fetchJobs, formatJobForCard } from "@/api/jobs";
 
 const Jobs = () => {
   const navigate = useNavigate();
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    loadJobs();
+  }, []);
+
+  async function loadJobs() {
+    try {
+      setLoading(true);
+      const data = await fetchJobs();
+      const formattedJobs = data.map(formatJobForCard);
+      setJobs(formattedJobs);
+    } catch (err: any) {
+      setError(err.message || 'Failed to load jobs');
+      console.error('Error loading jobs:', err);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   const handleTypeToggle = (type: string) => {
     setSelectedTypes((prev) =>
@@ -71,8 +40,8 @@ const Jobs = () => {
   };
 
   const filteredJobs = selectedTypes.length > 0
-    ? mockJobs.filter((job) => selectedTypes.includes(job.jobType))
-    : mockJobs;
+    ? jobs.filter((job) => selectedTypes.includes(job.jobType))
+    : jobs;
 
   return (
     <div className="min-h-screen bg-background">
@@ -90,11 +59,17 @@ const Jobs = () => {
           Back to Home
         </Button>
 
-        <div className="mb-6">
-          <h1 className="mb-2 text-3xl font-bold text-foreground">Jobs</h1>
-          <p className="text-muted-foreground">
-            Find opportunities across Training, Internship, Daily-wage, Part-time, and Full-time positions
-          </p>
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="mb-2 text-3xl font-bold text-foreground">Jobs</h1>
+            <p className="text-muted-foreground">
+              Find opportunities across Training, Internship, Daily-wage, Part-time, and Full-time positions
+            </p>
+          </div>
+          <Button onClick={() => navigate('/post-job')} className="gap-2">
+            <Plus className="h-4 w-4" />
+            Post a Job
+          </Button>
         </div>
 
         <div className="flex flex-col gap-6 lg:flex-row">
@@ -108,29 +83,44 @@ const Jobs = () => {
 
           {/* Job Listings */}
           <main className="flex-1">
-            <div className="mb-4 flex items-center justify-between">
-              <p className="text-sm text-muted-foreground">
-                {filteredJobs.length} jobs found
-              </p>
-              <div className="flex gap-2">
-                <Button
-                  variant={viewMode === "grid" ? "default" : "outline"}
-                  size="icon"
-                  onClick={() => setViewMode("grid")}
-                  aria-label="Grid view"
-                >
-                  <Grid className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant={viewMode === "list" ? "default" : "outline"}
-                  size="icon"
-                  onClick={() => setViewMode("list")}
-                  aria-label="List view"
-                >
-                  <List className="h-4 w-4" />
+            {loading && (
+              <div className="text-center py-12">
+                <p className="text-muted-foreground">Loading jobs...</p>
+              </div>
+            )}
+            {error && (
+              <div className="text-center py-12">
+                <p className="text-red-600">{error}</p>
+                <Button onClick={loadJobs} variant="outline" className="mt-4">
+                  Retry
                 </Button>
               </div>
-            </div>
+            )}
+            {!loading && !error && (
+              <>
+                <div className="mb-4 flex items-center justify-between">
+                  <p className="text-sm text-muted-foreground">
+                    {filteredJobs.length} jobs found
+                  </p>
+                  <div className="flex gap-2">
+                    <Button
+                      variant={viewMode === "grid" ? "default" : "outline"}
+                      size="icon"
+                      onClick={() => setViewMode("grid")}
+                      aria-label="Grid view"
+                    >
+                      <Grid className="h-4 w-4" />
+                    </Button>
+                    <Button
+                      variant={viewMode === "list" ? "default" : "outline"}
+                      size="icon"
+                      onClick={() => setViewMode("list")}
+                      aria-label="List view"
+                    >
+                      <List className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
 
             <div
               className={
@@ -139,10 +129,21 @@ const Jobs = () => {
                   : "flex flex-col gap-4"
               }
             >
-              {filteredJobs.map((job) => (
-                <JobCard key={job.id} {...job} />
-              ))}
-            </div>
+                  {filteredJobs.length === 0 ? (
+                    <div className="text-center py-12">
+                      <p className="text-muted-foreground mb-4">No jobs found</p>
+                      <Button onClick={() => navigate('/post-job')} variant="outline">
+                        Post the first job
+                      </Button>
+                    </div>
+                  ) : (
+                    filteredJobs.map((job) => (
+                      <JobCard key={job.id} {...job} />
+                    ))
+                  )}
+                </div>
+              </>
+            )}
           </main>
         </div>
       </div>

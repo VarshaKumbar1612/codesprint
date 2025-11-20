@@ -10,30 +10,20 @@ if (!supabaseUrl || !supabaseAnonKey) {
 export const supabase = createClient(supabaseUrl, supabaseAnonKey)
 
 // Types
-export type UserType = 'job_seeker' | 'employer' | 'service_provider'
-
-export interface Profile {
-  id: string
-  email: string
-  full_name: string
-  phone?: string
-  user_type: UserType
-  avatar_url?: string
-  is_verified: boolean
-  created_at: string
-  updated_at: string
-}
-
 export interface JobPosting {
   id: string
   employer_id: string
   job_title: string
-  job_type: 'internship' | 'full_time' | 'part_time' | 'contract'
+  company_name: string
+  job_type: 'internship' | 'full_time' | 'part_time' | 'contract' | 'daily-wage' | 'training'
   description: string
-  required_skills: string[]
   location: string
   salary_min?: number
   salary_max?: number
+  salary_display?: string
   status: 'active' | 'closed' | 'filled' | 'draft'
   posted_at: string
+  created_at: string
+  updated_at: string
 }
+
