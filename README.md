@@ -1,73 +1,53 @@
-# Welcome to your Lovable project
+This project is a web-based platform that helps people in Tier 2 and Tier 3 cities discover nearby jobs, services, skilling centres, rentals, and essential daily-needs providers. Most opportunities exist within a few kilometres of the user but remain invisible due to scattered information, unreliable sources, and lack of a trusted discovery layer.
+Our platform solves this by showing verified, hyperlocal opportunities on an interactive map, with simple posting tools and multilingual support.
 
-## Project info
+Key Features
 
-**URL**: https://lovable.dev/projects/8d9b07cf-cba3-4f63-b5ec-15267b01514c
+Hyperlocal Discovery
+Shows nearby jobs and essential services within a 1–5 km radius through a clean map and list interface.
 
-## How can I edit this code?
+Quick Listing & Search
+Anyone can post opportunities with a simple form.
+Search and filtering help users quickly find jobs, services, or rentals.
 
-There are several ways of editing your application.
+Basic Verification (Optional)
+Providers can upload a photo + ID to get a verification badge.
+Builds trust for job seekers and users approaching unfamiliar services.
 
-**Use Lovable**
+Direct Contact
+Call or WhatsApp providers instantly from the listing.
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/8d9b07cf-cba3-4f63-b5ec-15267b01514c) and start prompting.
+Local Language Support
+Integrates with Bhashini to help users read and create listings in their preferred Indian languages.
 
-Changes made via Lovable will be committed automatically to this repo.
+Tech Stack
 
-**Use your preferred IDE**
+Frontend: React, TypeScript, Vite
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+Styling: Tailwind CSS, shadcn-ui
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+Backend: REST APIs (Node/Express or similar)
 
-Follow these steps:
+Database: SQL database + Geo indexing
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+Storage: Cloud storage for images + ID documents
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+Integrations:
 
-# Step 3: Install the necessary dependencies.
-npm i
+Maps (Google Maps/Mapbox/OSM)
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+Bhashini for language translation
 
-**Edit a file directly in GitHub**
+How It Works
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+User opens the website and shares location.
 
-**Use GitHub Codespaces**
+The platform fetches nearby listings from the geo-indexed database.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+Listings appear on the map and feed with distance and verification tags.
 
-## What technologies are used for this project?
+Users can post a new listing with basic details and optional ID verification.
 
-This project is built with:
+Seekers can call or WhatsApp the provider directly.
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/8d9b07cf-cba3-4f63-b5ec-15267b01514c) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Bhashini enables effortless multilingual access.
