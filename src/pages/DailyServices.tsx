@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Star, MapPin, Phone, Wrench, Zap, Droplets, Sparkles, PaintBucket } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { BookNowModal } from "@/components/jobs/BookNowModal";
 
 const serviceCategories = [
   { id: "all", label: "All Services", icon: Sparkles },
@@ -66,6 +67,8 @@ const DailyServices = () => {
   const navigate = useNavigate();
   const [selectedCategory, setSelectedCategory] = useState("all");
   const [phoneNumbers, setPhoneNumbers] = useState<Record<string, string>>({});
+  const [bookNowModalOpen, setBookNowModalOpen] = useState(false);
+  const [selectedWorker, setSelectedWorker] = useState<typeof mockWorkers[0] | null>(null);
 
   const generatePhoneNumber = (id: string) => {
     if (!phoneNumbers[id]) {
@@ -79,6 +82,11 @@ const DailyServices = () => {
   const handleContactClick = (id: string) => {
     const number = generatePhoneNumber(id);
     alert(`Contact Number: ${number}`);
+  };
+
+  const handleBookNow = (worker: typeof mockWorkers[0]) => {
+    setSelectedWorker(worker);
+    setBookNowModalOpen(true);
   };
 
   const filteredWorkers = selectedCategory === "all"
@@ -160,7 +168,11 @@ const DailyServices = () => {
                     <Phone className="mr-2 h-4 w-4" />
                     Contact
                   </Button>
-                  <Button className="w-full bg-action hover:bg-action/90" size="sm">
+                  <Button 
+                    className="w-full bg-action hover:bg-action/90" 
+                    size="sm"
+                    onClick={() => handleBookNow(worker)}
+                  >
                     Book Now
                   </Button>
                 </div>
@@ -169,6 +181,15 @@ const DailyServices = () => {
           ))}
         </div>
       </div>
+
+      {selectedWorker && (
+        <BookNowModal
+          open={bookNowModalOpen}
+          onOpenChange={setBookNowModalOpen}
+          serviceName={selectedWorker.serviceName}
+          workerName={selectedWorker.name}
+        />
+      )}
     </div>
   );
 };
